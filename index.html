@@ -5,14 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Borba Esquadrias</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Albert+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <style>
     :root {
-      --navy: #0D2839;
-      --gold: #B6BEC3;
-      --gold-light: #D4DCE0;
-      --white: #F5F3EE;
+      --navy: #004833;
+      --gold: #CDF07B;
+      --gold-light: #DEFF9A;
+      --white: #FCFAF6;
       --gray: #9A9A9A;
-      --dark: #071520;
+      --dark: #002318;
+      --label: #2A7A50;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -36,21 +38,26 @@
       align-items: center;
       justify-content: space-between;
       padding: 1.2rem 5%;
-      background: rgba(13,40,57,0.92);
+      background: rgba(0,72,51,0.92);
       backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(182,190,195,0.2);
+      border-bottom: 1px solid rgba(205,240,123,0.2);
     }
 
     .nav-logo {
-      font-family: 'Albert Sans', sans-serif;
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: #FFFFFF;
-      letter-spacing: 0.08em;
+      display: flex;
+      align-items: center;
       text-decoration: none;
     }
 
-    .nav-logo span { color: #FFFFFF; }
+    .logo-img {
+      height: 48px;
+      width: auto;
+    }
+
+    .logo-img--footer {
+      height: 40px;
+      opacity: 0.85;
+    }
 
     .nav-links {
       display: flex;
@@ -69,42 +76,56 @@
 
     .nav-links a:hover { color: var(--gold-light); }
 
-    /* ── HERO ── */
+    /* ── HERO SLIDER ── */
     #hero {
-      min-height: 100vh;
-      background: var(--navy);
+      padding: 0;
+      overflow: hidden;
+      position: relative;
+      height: 100vh;
       display: flex;
       align-items: center;
-      position: relative;
-      overflow: hidden;
-      padding: 0 5%;
     }
 
-    .hero-bg {
+    .hero-swiper {
       position: absolute;
       inset: 0;
-      background:
-        linear-gradient(135deg, rgba(182,190,195,0.06) 0%, transparent 60%),
-        repeating-linear-gradient(
-          90deg,
-          transparent,
-          transparent 79px,
-          rgba(182,190,195,0.04) 79px,
-          rgba(182,190,195,0.04) 80px
-        ),
-        repeating-linear-gradient(
-          0deg,
-          transparent,
-          transparent 79px,
-          rgba(182,190,195,0.04) 79px,
-          rgba(182,190,195,0.04) 80px
-        );
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    .swiper-slide {
+      background-size: cover;
+      background-position: center;
+    }
+
+    .slide-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(
+        to right,
+        rgba(0,72,51,0.82) 0%,
+        rgba(0,72,51,0.5) 60%,
+        rgba(0,72,51,0.2) 100%
+      );
     }
 
     .hero-content {
       position: relative;
+      z-index: 2;
       max-width: 680px;
+      padding: 0 5%;
       animation: fadeUp 1s ease both;
+    }
+
+    .hero-pagination {
+      position: absolute;
+      bottom: 2rem;
+      left: 0 !important;
+      right: 0 !important;
+      z-index: 3;
+      text-align: center !important;
     }
 
     .hero-tag {
@@ -113,7 +134,7 @@
       letter-spacing: 0.25em;
       text-transform: uppercase;
       color: var(--gold);
-      border: 1px solid rgba(182,190,195,0.4);
+      border: 1px solid rgba(205,240,123,0.4);
       padding: 0.4rem 1rem;
       margin-bottom: 2rem;
     }
@@ -134,7 +155,7 @@
 
     .hero-desc {
       font-size: 1rem;
-      color: rgba(245,243,238,0.6);
+      color: rgba(252,250,246,0.7);
       line-height: 1.8;
       max-width: 480px;
       margin-bottom: 2.5rem;
@@ -160,7 +181,7 @@
 
     .btn-outline {
       display: inline-block;
-      border: 1px solid rgba(245,243,238,0.3);
+      border: 1px solid rgba(252,250,246,0.35);
       color: var(--white);
       padding: 0.85rem 2.2rem;
       font-size: 0.8rem;
@@ -177,15 +198,22 @@
       color: var(--gold-light);
     }
 
-    .hero-line {
-      position: absolute;
-      right: 5%;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 1px;
-      height: 40%;
-      background: linear-gradient(to bottom, transparent, var(--gold), transparent);
-      opacity: 0.4;
+    .swiper-button-prev,
+    .swiper-button-next {
+      color: rgba(255,255,255,0.7);
+      transition: color 0.3s;
+    }
+    .swiper-button-prev:hover,
+    .swiper-button-next:hover { color: #ffffff; }
+
+    .swiper-pagination-bullet {
+      background: rgba(255,255,255,0.5);
+      opacity: 1;
+    }
+    .swiper-pagination-bullet-active {
+      background: var(--gold);
+      width: 24px;
+      border-radius: 2px;
     }
 
     /* ── SOBRE ── */
@@ -201,7 +229,7 @@
       font-size: 0.7rem;
       letter-spacing: 0.3em;
       text-transform: uppercase;
-      color: var(--gold);
+      color: var(--label);
       margin-bottom: 1rem;
     }
 
@@ -217,7 +245,7 @@
     .section-text {
       font-size: 0.95rem;
       line-height: 1.9;
-      color: #4A4A5A;
+      color: #3A4A40;
       margin-bottom: 1rem;
     }
 
@@ -273,8 +301,8 @@
         -45deg,
         transparent,
         transparent 20px,
-        rgba(182,190,195,0.04) 20px,
-        rgba(182,190,195,0.04) 21px
+        rgba(205,240,123,0.04) 20px,
+        rgba(205,240,123,0.04) 21px
       );
     }
 
@@ -284,7 +312,7 @@
       right: -1.5rem;
       width: 60%;
       height: 60%;
-      border: 1px solid rgba(182,190,195,0.25);
+      border: 1px solid rgba(205,240,123,0.25);
       z-index: -1;
     }
 
@@ -295,6 +323,7 @@
     }
 
     #servicos .section-title { color: var(--white); }
+    #servicos .section-label { color: var(--gold); }
 
     .servicos-header {
       display: flex;
@@ -307,7 +336,7 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1.5px;
-      background: rgba(182,190,195,0.15);
+      background: rgba(205,240,123,0.15);
     }
 
     .servico-card {
@@ -317,19 +346,19 @@
       cursor: default;
     }
 
-    .servico-card:hover { background: #060A2E; }
+    .servico-card:hover { background: #013322; }
 
     .servico-num {
       font-family: 'Cormorant Garamond', serif;
       font-size: 3rem;
       font-weight: 700;
-      color: rgba(182,190,195,0.2);
+      color: rgba(205,240,123,0.2);
       line-height: 1;
       margin-bottom: 1.5rem;
       transition: color 0.4s;
     }
 
-    .servico-card:hover .servico-num { color: rgba(182,190,195,0.5); }
+    .servico-card:hover .servico-num { color: rgba(205,240,123,0.5); }
 
     .servico-nome {
       font-family: 'Cormorant Garamond', serif;
@@ -341,7 +370,7 @@
 
     .servico-desc {
       font-size: 0.88rem;
-      color: rgba(245,243,238,0.5);
+      color: rgba(252,250,246,0.5);
       line-height: 1.8;
     }
 
@@ -366,7 +395,7 @@
 
     .contato-info p {
       font-size: 0.9rem;
-      color: #4A4A5A;
+      color: #3A4A40;
       line-height: 1.8;
       margin-bottom: 2.5rem;
     }
@@ -387,7 +416,7 @@
 
     .contato-item span {
       font-size: 0.88rem;
-      color: #4A4A5A;
+      color: #3A4A40;
     }
 
     .contato-form {
@@ -436,15 +465,12 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-top: 1px solid rgba(182,190,195,0.15);
+      border-top: 1px solid rgba(205,240,123,0.15);
     }
 
     .footer-logo {
-      font-family: 'Albert Sans', sans-serif;
-      font-size: 1.1rem;
-      color: #FFFFFF;
-      font-weight: 600;
-      letter-spacing: 0.08em;
+      display: flex;
+      align-items: center;
     }
 
     .footer-logo span { color: #FFFFFF; }
@@ -486,7 +512,9 @@
 
   <!-- NAVBAR -->
   <nav>
-    <a href="#hero" class="nav-logo">Borba <span>Esquadrias</span></a>
+    <a href="#hero" class="nav-logo">
+      <img src="images/logo.png" alt="Borba Esquadrias" class="logo-img" />
+    </a>
     <ul class="nav-links">
       <li><a href="#sobre">Sobre</a></li>
       <li><a href="#servicos">Serviços</a></li>
@@ -494,25 +522,27 @@
     </ul>
   </nav>
 
-  <!-- HERO -->
+  <!-- HERO SLIDER -->
   <section id="hero">
-    <div class="hero-bg"></div>
+    <!-- Slides apenas como fundo -->
+    <div class="swiper hero-swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide" style="background-image: url('images/6.jpg')"></div>
+        <div class="swiper-slide" style="background-image: url('images/8.jpg')"></div>
+        <div class="swiper-slide" style="background-image: url('images/12.png')"></div>
+        <div class="swiper-slide" style="background-image: url('images/1.jpg')"></div>
+      </div>
+    </div>
+    <!-- Overlay e conteúdo fixos -->
+    <div class="slide-overlay"></div>
     <div class="hero-content">
       <div class="hero-tag">Indústria de Esquadrias</div>
-      <h1 class="hero-title">
-        Precisão e<br>
-        <em>excelência</em><br>
-        em cada detalhe.
-      </h1>
-      <p class="hero-desc">
-        <!-- EDITE: descrição curta da empresa -->
-        Fabricamos esquadrias de alta qualidade para projetos residenciais e comerciais,
-        com décadas de experiência e compromisso com a durabilidade.
-      </p>
+      <h1 class="hero-title">Precisão e<br><em>excelência</em><br>em cada detalhe.</h1>
+      <p class="hero-desc">Esquadrias de alta qualidade para projetos residenciais e comerciais, com décadas de experiência e compromisso com a durabilidade.</p>
       <a href="#contato" class="btn-primary">Fale Conosco</a>
       <a href="#sobre" class="btn-outline">Conheça a Empresa</a>
     </div>
-    <div class="hero-line"></div>
+    <div class="swiper-pagination hero-pagination"></div>
   </section>
 
   <!-- SOBRE -->
@@ -630,11 +660,23 @@
 
   <!-- FOOTER -->
   <footer>
-    <div class="footer-logo">Borba <span>Esquadrias</span></div>
+    <div class="footer-logo">
+      <img src="images/logo.png" alt="Borba Esquadrias" class="logo-img logo-img--footer" />
+    </div>
     <div class="footer-copy">© 2026 Borba Esquadrias. Todos os direitos reservados.</div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script>
+    new Swiper('.hero-swiper', {
+      loop: true,
+      autoplay: { delay: 5000, disableOnInteraction: false },
+      speed: 1200,
+      effect: 'fade',
+      fadeEffect: { crossFade: true },
+      pagination: { el: '.hero-pagination', clickable: true },
+    });
+
     // Animação de scroll (reveal)
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => {
