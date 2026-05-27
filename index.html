@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Borba Esquadrias</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Albert+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #0D2839;
+      --gold: #B6BEC3;
+      --gold-light: #D4DCE0;
+      --white: #F5F3EE;
+      --gray: #9A9A9A;
+      --dark: #071520;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--white);
+      color: var(--navy);
+      font-family: 'Albert Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 5%;
+      background: rgba(13,40,57,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(182,190,195,0.2);
+    }
+
+    .nav-logo {
+      font-family: 'Albert Sans', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+    }
+
+    .nav-logo span { color: #FFFFFF; }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: rgba(245,243,238,0.75);
+      text-decoration: none;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--gold-light); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 0 5%;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(135deg, rgba(182,190,195,0.06) 0%, transparent 60%),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 79px,
+          rgba(182,190,195,0.04) 79px,
+          rgba(182,190,195,0.04) 80px
+        ),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 79px,
+          rgba(182,190,195,0.04) 79px,
+          rgba(182,190,195,0.04) 80px
+        );
+    }
+
+    .hero-content {
+      position: relative;
+      max-width: 680px;
+      animation: fadeUp 1s ease both;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(182,190,195,0.4);
+      padding: 0.4rem 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title em {
+      font-style: normal;
+      color: var(--gold);
+    }
+
+    .hero-desc {
+      font-size: 1rem;
+      color: rgba(245,243,238,0.6);
+      line-height: 1.8;
+      max-width: 480px;
+      margin-bottom: 2.5rem;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--navy);
+      padding: 0.85rem 2.2rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      display: inline-block;
+      border: 1px solid rgba(245,243,238,0.3);
+      color: var(--white);
+      padding: 0.85rem 2.2rem;
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      margin-left: 1rem;
+      transition: border-color 0.3s, color 0.3s;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--gold);
+      color: var(--gold-light);
+    }
+
+    .hero-line {
+      position: absolute;
+      right: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1px;
+      height: 40%;
+      background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+      opacity: 0.4;
+    }
+
+    /* ── SOBRE ── */
+    #sobre {
+      padding: 8rem 5%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 600;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+      color: var(--navy);
+    }
+
+    .section-text {
+      font-size: 0.95rem;
+      line-height: 1.9;
+      color: #4A4A5A;
+      margin-bottom: 1rem;
+    }
+
+    .sobre-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(0,2,42,0.1);
+    }
+
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-top: 0.4rem;
+    }
+
+    .sobre-visual {
+      position: relative;
+    }
+
+    .sobre-img-placeholder {
+      width: 100%;
+      aspect-ratio: 4/5;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(245,243,238,0.2);
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sobre-img-placeholder::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 20px,
+        rgba(182,190,195,0.04) 20px,
+        rgba(182,190,195,0.04) 21px
+      );
+    }
+
+    .sobre-accent {
+      position: absolute;
+      bottom: -1.5rem;
+      right: -1.5rem;
+      width: 60%;
+      height: 60%;
+      border: 1px solid rgba(182,190,195,0.25);
+      z-index: -1;
+    }
+
+    /* ── SERVIÇOS ── */
+    #servicos {
+      padding: 8rem 5%;
+      background: var(--navy);
+    }
+
+    #servicos .section-title { color: var(--white); }
+
+    .servicos-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 4rem;
+    }
+
+    .servicos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px;
+      background: rgba(182,190,195,0.15);
+    }
+
+    .servico-card {
+      background: var(--navy);
+      padding: 3rem 2.5rem;
+      transition: background 0.4s;
+      cursor: default;
+    }
+
+    .servico-card:hover { background: #060A2E; }
+
+    .servico-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: rgba(182,190,195,0.2);
+      line-height: 1;
+      margin-bottom: 1.5rem;
+      transition: color 0.4s;
+    }
+
+    .servico-card:hover .servico-num { color: rgba(182,190,195,0.5); }
+
+    .servico-nome {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+
+    .servico-desc {
+      font-size: 0.88rem;
+      color: rgba(245,243,238,0.5);
+      line-height: 1.8;
+    }
+
+    .servico-line {
+      width: 30px;
+      height: 1px;
+      background: var(--gold);
+      margin-bottom: 1.5rem;
+      transition: width 0.4s;
+    }
+
+    .servico-card:hover .servico-line { width: 60px; }
+
+    /* ── CONTATO ── */
+    #contato {
+      padding: 8rem 5%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: start;
+    }
+
+    .contato-info p {
+      font-size: 0.9rem;
+      color: #4A4A5A;
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+    }
+
+    .contato-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .contato-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .contato-item span {
+      font-size: 0.88rem;
+      color: #4A4A5A;
+    }
+
+    .contato-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-group label {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gray);
+    }
+
+    .form-group input,
+    .form-group textarea {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(0,2,42,0.2);
+      padding: 0.8rem 0;
+      font-family: 'Albert Sans', sans-serif;
+      font-size: 0.92rem;
+      color: var(--navy);
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--gold);
+    }
+
+    .form-group textarea { resize: none; height: 100px; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark);
+      padding: 2.5rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(182,190,195,0.15);
+    }
+
+    .footer-logo {
+      font-family: 'Albert Sans', sans-serif;
+      font-size: 1.1rem;
+      color: #FFFFFF;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+    }
+
+    .footer-logo span { color: #FFFFFF; }
+
+    .footer-copy {
+      font-size: 0.75rem;
+      color: rgba(245,243,238,0.3);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── ANIMAÇÕES ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVO ── */
+    @media (max-width: 768px) {
+      #sobre, #contato { grid-template-columns: 1fr; gap: 3rem; }
+      .servicos-grid { grid-template-columns: 1fr; }
+      .sobre-visual { display: none; }
+      .servicos-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="#hero" class="nav-logo">Borba <span>Esquadrias</span></a>
+    <ul class="nav-links">
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#servicos">Serviços</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-tag">Indústria de Esquadrias</div>
+      <h1 class="hero-title">
+        Precisão e<br>
+        <em>excelência</em><br>
+        em cada detalhe.
+      </h1>
+      <p class="hero-desc">
+        <!-- EDITE: descrição curta da empresa -->
+        Fabricamos esquadrias de alta qualidade para projetos residenciais e comerciais,
+        com décadas de experiência e compromisso com a durabilidade.
+      </p>
+      <a href="#contato" class="btn-primary">Fale Conosco</a>
+      <a href="#sobre" class="btn-outline">Conheça a Empresa</a>
+    </div>
+    <div class="hero-line"></div>
+  </section>
+
+  <!-- SOBRE -->
+  <section id="sobre">
+    <div class="sobre-info reveal">
+      <div class="section-label">Quem Somos</div>
+      <h2 class="section-title">Tradição e qualidade na fabricação de esquadrias</h2>
+      <p class="section-text">
+        <!-- EDITE: história da empresa -->
+        A Borba Esquadrias nasceu do comprometimento com a qualidade e da paixão pela fabricação.
+        Ao longo dos anos, construímos uma sólida reputação no mercado, atendendo clientes
+        que exigem o melhor em acabamento e resistência.
+      </p>
+      <p class="section-text">
+        <!-- EDITE: diferenciais -->
+        Nossa equipe técnica especializada garante que cada produto saia da fábrica dentro
+        dos mais rigorosos padrões de qualidade.
+      </p>
+      <div class="sobre-stats">
+        <div>
+          <!-- EDITE: números reais -->
+          <div class="stat-num">20+</div>
+          <div class="stat-label">Anos de mercado</div>
+        </div>
+        <div>
+          <div class="stat-num">500+</div>
+          <div class="stat-label">Projetos entregues</div>
+        </div>
+        <div>
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Satisfação garantida</div>
+        </div>
+      </div>
+    </div>
+    <div class="sobre-visual reveal">
+      <div class="sobre-img-placeholder">
+        <!-- SUBSTITUA por uma tag <img src="images/foto.jpg"> -->
+        Foto da empresa / produtos
+      </div>
+      <div class="sobre-accent"></div>
+    </div>
+  </section>
+
+  <!-- SERVIÇOS -->
+  <section id="servicos">
+    <div class="servicos-header reveal">
+      <div>
+        <div class="section-label">O que fazemos</div>
+        <h2 class="section-title">Nossos Produtos<br>e Serviços</h2>
+      </div>
+    </div>
+    <div class="servicos-grid">
+      <!-- EDITE: adicione ou remova cards conforme os serviços reais -->
+      <div class="servico-card reveal">
+        <div class="servico-num">01</div>
+        <div class="servico-line"></div>
+        <div class="servico-nome">Esquadrias de Alumínio</div>
+        <p class="servico-desc">Janelas, portas e fachadas em alumínio com alta resistência e acabamento refinado.</p>
+      </div>
+      <div class="servico-card reveal">
+        <div class="servico-num">02</div>
+        <div class="servico-line"></div>
+        <div class="servico-nome">Esquadrias de Ferro</div>
+        <p class="servico-desc">Grades, portões e estruturas em ferro com tratamento anticorrosivo e durabilidade superior.</p>
+      </div>
+      <div class="servico-card reveal">
+        <div class="servico-num">03</div>
+        <div class="servico-line"></div>
+        <div class="servico-nome">Projetos Sob Medida</div>
+        <p class="servico-desc">Desenvolvimento de soluções personalizadas conforme as especificações do seu projeto.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTATO -->
+  <section id="contato">
+    <div class="contato-info reveal">
+      <div class="section-label">Fale Conosco</div>
+      <h2 class="section-title">Entre em contato com nossa equipe</h2>
+      <p>
+        <!-- EDITE: texto de chamada -->
+        Solicite um orçamento ou tire suas dúvidas. Nossa equipe retorna em até 24 horas úteis.
+      </p>
+      <!-- EDITE: dados reais de contato -->
+      <div class="contato-item">
+        <div class="contato-dot"></div>
+        <span>(XX) XXXXX-XXXX</span>
+      </div>
+      <div class="contato-item">
+        <div class="contato-dot"></div>
+        <span>contato@borbaesquadrias.com.br</span>
+      </div>
+      <div class="contato-item">
+        <div class="contato-dot"></div>
+        <span>Rua Exemplo, 123 — Brusque, SC</span>
+      </div>
+    </div>
+    <div class="contato-form reveal">
+      <!-- ATENÇÃO: este formulário precisa de um backend ou serviço (ex: Formspree) para funcionar -->
+      <div class="form-group">
+        <label>Nome</label>
+        <input type="text" placeholder="Seu nome completo" />
+      </div>
+      <div class="form-group">
+        <label>E-mail</label>
+        <input type="email" placeholder="seu@email.com" />
+      </div>
+      <div class="form-group">
+        <label>Mensagem</label>
+        <textarea placeholder="Como podemos ajudar?"></textarea>
+      </div>
+      <a href="#" class="btn-primary" style="text-align:center;">Enviar Mensagem</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Borba <span>Esquadrias</span></div>
+    <div class="footer-copy">© 2026 Borba Esquadrias. Todos os direitos reservados.</div>
+  </footer>
+
+  <script>
+    // Animação de scroll (reveal)
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
